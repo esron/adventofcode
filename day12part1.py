@@ -1,5 +1,7 @@
-from sys import path, stdin
+from sys import stdin
 from typing import Optional
+
+paths = []
 
 class Node:
   nodes: 'list[Node]' = []
@@ -17,11 +19,6 @@ class Node:
   def is_big_cave(self):
     return self.value.isupper()
 
-  def visit(self):
-    if self.is_big_cave():
-      return
-    self.visited = True
-
   def has_node(value):
     for n in Node.nodes:
       if value == n.value:
@@ -33,9 +30,7 @@ class Node:
       if value == n.value:
         return n
 
-
-f = open('testinput.txt')
-for line in f:
+for line in stdin:
   line = line.rstrip()
   from_value, to_value = line.split('-')
 
@@ -45,6 +40,8 @@ for line in f:
     node_from = Node(from_value)
     if from_value == 'start':
       Node.start_node = node_from
+    if from_value == 'end':
+      Node.end_node = node_from
     Node.nodes.append(node_from)
 
 
@@ -54,31 +51,26 @@ for line in f:
     node_to = Node(to_value)
     if to_value == 'end':
       Node.end_node = node_to
+    if to_value == 'start':
+      Node.start_node = node_to
     Node.nodes.append(node_to)
 
-
-  node_from.add_link(node_to)
-  node_to.add_link(node_from)
-
-paths = []
+  if node_to.value != 'start' and node_from.value != 'end':
+    node_from.add_link(node_to)
+  if node_from.value != 'start' and node_to.value != 'end':
+    node_to.add_link(node_from)
 
 def pathfinder(node: Node, path: list):
-  if node.visited:
+  if node.value in path and not node.is_big_cave():
     return
   path.append(node.value)
-  node.visit()
   if node.value == 'end':
+    paths.append(path.copy())
     return
   for n in node.links:
-    pathfinder(n, path)
+    pathfinder(n, path.copy())
   return
 
-Node.start_node.visit()
-
-for n in Node.start_node.links:
-  path = [Node.start_node.value]
-  pathfinder(n, path)
-  if len(path) > 0 and path[-1] == 'end':
-    paths.append(path)
+pathfinder(Node.start_node, [])
 
 print(len(paths))
