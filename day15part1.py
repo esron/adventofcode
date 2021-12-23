@@ -31,6 +31,9 @@ class Point:
     def __lt__(self, __o: object) -> bool:
         return self.f < __o.f
 
+    def __hash__(self) -> int:
+        return hash((self.x, self.y))
+
     def __str__(self) -> str:
         return f'{{ x: {str(self.x)}, y: {str(self.y)}, f: {self.f}, \
 g: {self.g} value: {self.value} }}'
@@ -52,25 +55,17 @@ def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point
 
     return n
 
-def reconstruct_path(p: Point) -> Iterable[Point]:
-    path = []
-    while p != None:
-        path.append(p)
-        p = p.father
-    return path
-
-def pathfinder(A: Point, goal: Point,
-               grid: Iterable[Iterable[int]]) -> Iterable[Point]:
+def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
     open_list = PriorityQueue()
     open_list.put(A)
-    closed_list = []
+    closed_list = set()
 
     while not open_list.empty():
         current = open_list.get()
 
-        closed_list.append(current)
+        closed_list.add(current)
         if current == goal:
-            return reconstruct_path(current)
+            return current
 
         neighbors = get_neighbors(current, grid)
 
@@ -101,6 +96,6 @@ start.g = 0
 start.f = 0
 goal  = grid[len(grid) - 1][len(grid[0]) - 1]
 
-path = pathfinder(start, goal, grid)
+point = pathfinder(start, goal, grid)
 
-print(path[0].g)
+print(point.g)
