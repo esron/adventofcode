@@ -19,7 +19,10 @@ class Point:
         self.father = point
 
     def __eq__(self, __o: object) -> bool:
-        return self.x == __o.x and self.y == __o.y
+        if isinstance(__o, Point):
+            return self.x == __o.x and self.y == __o.y
+        else:
+            return False
 
     def __gt__(self, __o: object) -> bool:
         return self.f > __o.f
@@ -28,21 +31,15 @@ class Point:
         return self.f < __o.f
 
     def __str__(self) -> str:
-        return f'{{ x: {str(self.x)}, y: {str(self.y)}, weight: {self.weight} \
-value: {self.value} cost_to_move: {self.cost_to_move} }}'
-
-grid = []
-f = open('testinput.txt')
-for line in f:
-    grid.append(list(map(int, line.rstrip())))
-
+        return f'{{ x: {str(self.x)}, y: {str(self.y)}, f: {self.f}, \
+g: {self.g} value: {self.value} }}'
 
 def is_in_range(x: int, y: int, grid: Iterable[Iterable[int]]) -> bool:
     return (0 <= x < len(grid)) and (0 <= y < len(grid[x]))
 
 def append_if_in_range(grid, n, direction):
     if is_in_range(*direction, grid):
-        n.append(Point(direction, grid[direction[0]][direction[1]]))
+        n.append(grid[direction[0]][direction[1]])
 
 def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point]:
     n = []
@@ -56,7 +53,7 @@ def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point
 
 def reconstruct_path(p: Point) -> Iterable[Point]:
     path = []
-    while p.father != None:
+    while p != None:
         path.append(p)
         p = p.father
     return path
@@ -90,11 +87,20 @@ def pathfinder(A: Point, goal: Point,
                 if n not in open_list:
                     open_list.append(n)
 
+grid = []
 
-start = Point((0, 0), grid[0][0])
+for line in stdin:
+    grid.append(list(map(int, line.rstrip())))
+
+for i in range(len(grid)):
+    for j in range(len(grid[i])):
+        grid[i][j] = Point((i, j), grid[i][j])
+
+start = grid[0][0]
 start.g = 0
 start.f = 0
-goal  = Point((len(grid), len(grid[0])), grid[len(grid) - 1][len(grid[0]) - 1])
+goal  = grid[len(grid) - 1][len(grid[0]) - 1]
 
 path = pathfinder(start, goal, grid)
-print(path)
+
+print(path[0].g)
