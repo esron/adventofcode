@@ -1,6 +1,7 @@
 from decimal import Decimal
 from sys import stdin
 from typing import Iterable
+from queue import PriorityQueue
 
 class Point:
     def __init__(self, coord: 'tuple[int, int]', value: int) -> None:
@@ -60,12 +61,12 @@ def reconstruct_path(p: Point) -> Iterable[Point]:
 
 def pathfinder(A: Point, goal: Point,
                grid: Iterable[Iterable[int]]) -> Iterable[Point]:
-    open_list = [A]
+    open_list = PriorityQueue()
+    open_list.put(A)
     closed_list = []
 
-    while(len(open_list) != 0):
-        open_list = sorted(open_list, reverse=True)
-        current = open_list.pop()
+    while not open_list.empty():
+        current = open_list.get()
 
         closed_list.append(current)
         if current == goal:
@@ -84,8 +85,7 @@ def pathfinder(A: Point, goal: Point,
                 n.g = new_g
                 n.f = new_g + n.distance(goal)
 
-                if n not in open_list:
-                    open_list.append(n)
+                open_list.put(n)
 
 grid = []
 
