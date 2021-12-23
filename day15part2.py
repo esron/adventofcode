@@ -55,39 +55,30 @@ def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point
 
     return n
 
-def reconstruct_path(p: Point) -> Iterable[Point]:
-    path = []
-    while p != None:
-        path.append(p)
-        p = p.father
-    return path
-
-def pathfinder(A: Point, goal: Point,
-               grid: Iterable[Iterable[int]]) -> Iterable[Point]:
+def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
     open_list = PriorityQueue()
     open_list.put(A)
-    come_from = {A: None}
+    closed_list = set()
     i = 1
     while not open_list.empty():
-        if i % 500 == 0:
+        if i % 1000 == 0:
             print('Iteration: ', i)
         i += 1
-        current = open_list.get()
-
+        current: Point = open_list.get()
+        closed_list.add(current)
         if current == goal:
-            return reconstruct_path(current)
+            return current
 
         neighbors = get_neighbors(current, grid)
 
         for n in neighbors:
-            if n in come_from:
+            if n in closed_list:
                 continue
 
             new_g = current.g + n.value
 
             if new_g < n.g:
                 n.father = current
-                come_from[n] = current
                 n.g = new_g
                 n.f = new_g + n.distance(goal)
                 open_list.put(n)
@@ -97,7 +88,7 @@ def increment(x: int) -> int:
 
 grid = []
 f = open('day15.txt')
-for line in stdin:
+for line in f:
     l = list(map(int, line.rstrip()))
     ll = l.copy()
     for _ in range(4):
@@ -122,6 +113,6 @@ start.g = 0
 start.f = 0
 goal  = grid[len(grid) - 1][len(grid[0]) - 1]
 
-path = pathfinder(start, goal, grid)
+point = pathfinder(start, goal, grid)
 
-print(path[0].f)
+print(point.f)
