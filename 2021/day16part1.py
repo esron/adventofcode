@@ -1,9 +1,11 @@
 from collections import deque
-input  = '38006F45291200'
+input = '38006F45291200'
+
 
 def hex_to_bin(input: str) -> str:
     """Convert from hex string to binary string"""
     return '{0:b}'.format(int(input, 16))
+
 
 def take_from_queue(bin_queue: deque, times: int) -> list:
     response = []
@@ -11,10 +13,12 @@ def take_from_queue(bin_queue: deque, times: int) -> list:
         response.append(bin_queue.popleft())
     return response
 
+
 def take_package_size(bin_queue: deque, size_bit: str) -> list:
     if size_bit == '1':
         return take_from_queue(bin_queue, 11)
     return take_from_queue(bin_queue, 15)
+
 
 def take_literal_value(bin_queue: deque) -> list:
     response = []
@@ -25,6 +29,7 @@ def take_literal_value(bin_queue: deque) -> list:
         if(five_bits[0] == '0'):
             break
     return response
+
 
 bin_string = hex_to_bin(input)
 
