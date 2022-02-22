@@ -9,5 +9,7 @@ import click
 @click.option('-p', '--part', type=click.Choice(['1', '2']), required=True,
               help='Problem part')
 def cli(year: int, day: int, part: str):
-    """Advent of Python"""
-    click.echo(f'Hello World! year: {year}, day: {day}, part: {part}')
+    """Advent of Python
+
+       Python solutions to Advent of Code."""
+    click.echo(f'year: {year}, day: {day}, part: {part}')
