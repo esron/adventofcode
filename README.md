@@ -22,6 +22,10 @@ Install dependencies and build:
 
 ```bash
 pip install .
+
+# or use this for development mode so rebuild/reinstall isn't necessary after 
+# each change that is made during development
+pip install -e .
 ```
 
 Install dev dependencies:
