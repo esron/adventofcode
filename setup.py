@@ -1,10 +1,11 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 setup(
     name='adventofpy',
     versrion='0.1.0',
-    py_modules=['adventofpy'],
+    packages=find_packages(),
+    include_package_data=True,
     install_requires=[
         'click==8.0.4',
     ],
