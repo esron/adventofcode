@@ -3,6 +3,7 @@ import click
 
 file = open(os.getcwd() + '/year_2021/day01/input.txt')
 
+
 def run():
     increased = 0
     previous = int(file.readline())
@@ -15,6 +16,7 @@ def run():
         if actual > previous:
             increased += 1
     click.echo(increased)
+
 
 if __name__ == "__main__":
     run()
