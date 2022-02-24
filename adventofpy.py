@@ -1,4 +1,5 @@
 import click
+from importlib import import_module
 
 
 @click.command()
@@ -12,4 +13,10 @@ def cli(year: int, day: int, part: str):
     """Advent of Python
 
        Python solutions to Advent of Code."""
-    click.echo(f'year: {year}, day: {day}, part: {part}')
+    click.echo(f'Running script for year: {year}, day: {day:02d}, part: {part}')
+    try:
+        script = import_module(f'.part{part}', f'year_{year}.day{day:02d}')
+        script.run()
+    except ModuleNotFoundError:
+        click.echo(f'Module year_{year}.day{day:02d}.part{part} not found.', err=True)
+        exit(1)
