@@ -33,3 +33,17 @@ Install dev dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+
+## Usage
+
+```bash
+adventofpy [OPTIONS]
+```
+
+## Options
+```
+  -y, --year INTEGER RANGE  Event year  [2015<=x<=2021; required]
+  -d, --day INTEGER RANGE   Problem day  [1<=x<=25; required]
+  -p, --part [1|2]          Problem part  [required]
+  --help                    Show this message and exit.
+```
