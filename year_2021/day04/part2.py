@@ -54,7 +54,7 @@ def run():
             boards = list(filter(lambda b: not bingo(b), boards))
         else:
             if bingo(boards[0]):
-                print(score(boards[0]) * int(number))
+                click.echo(score(boards[0]) * int(number))
                 return
 
 
