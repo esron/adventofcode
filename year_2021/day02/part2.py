@@ -21,3 +21,7 @@ def run():
             aim -= value
 
     click.echo(depth * position)
+
+
+if __name__ == "__main__":
+    run()
