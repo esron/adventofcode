@@ -20,7 +20,7 @@ def step(polymer: str, map: Mapping[str, str]) -> str:
 
 
 def run():
-    f = open(os.getcwd() + '/year_2021/day13/input.txt')
+    f = open(os.getcwd() + '/year_2021/day14/input.txt')
     polymer_template = f.readline().rstrip()
 
     # Skip empty line
