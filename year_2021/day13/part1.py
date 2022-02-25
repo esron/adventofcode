@@ -1,5 +1,7 @@
-from sys import stdin
+import os
+import click
 from typing import Iterable
+
 
 class Point:
     def __init__(self, x: int, y: int) -> None:
@@ -34,6 +36,7 @@ def execute(instruction: str, points: Iterable[Point]) -> None:
             if p.x > value:
                 p.move_x(value - p.distance_x(value))
 
+
 def remove_equals(points: Iterable[Point]) -> Iterable[Point]:
     filtered = []
     while(len(points) > 0):
@@ -41,16 +44,24 @@ def remove_equals(points: Iterable[Point]) -> Iterable[Point]:
         points = list(filter(lambda x: x != points[0], points))
     return filtered
 
-points = []
-instructions = []
 
-for line in stdin:
-    if len(line.split(',')) == 2:
-        points.append(Point(*tuple(map(int, line.rstrip().split(',')))))
-    elif line != '\n':
-        instructions.append(line.rstrip().split(' ')[2])
+def run():
+    f = open(os.getcwd() + '/year_2021/day13/input.txt')
 
-execute(instructions[0], points)
-points = remove_equals(points)
+    points = []
+    instructions = []
 
-print(len(points))
+    for line in f:
+        if len(line.split(',')) == 2:
+            points.append(Point(*tuple(map(int, line.rstrip().split(',')))))
+        elif line != '\n':
+            instructions.append(line.rstrip().split(' ')[2])
+
+    execute(instructions[0], points)
+    points = remove_equals(points)
+
+    click.echo(len(points))
+
+
+if __name__ == "__main__":
+    run()
