@@ -1,16 +1,19 @@
-from sys import stdin
+import os
+import click
 
 board = []
-steps = 100
 counter = 0
+
 
 def step():
     for i in range(len(board)):
         for j in range(len(board[i])):
             board[i][j] += 1
 
+
 def in_range(x, y):
     return (0 <= x < len(board)) and (0 <= y < len(board[x]))
+
 
 def increases_surroundings(i, j):
     for ii in (-1, 0, 1):
@@ -20,6 +23,7 @@ def increases_surroundings(i, j):
 
             if in_range(x, y) and board[x][y] != 0:
                 board[x][y] += 1
+
 
 def flash():
     global counter
@@ -35,11 +39,20 @@ def flash():
             increases_surroundings(i, j)
         flash()
 
-for line in stdin:
-    board.append(list(map(int, line.rstrip())))
 
-for s in range(1, steps + 1):
-    step()
-    flash()
+def run():
+    steps = 100
 
-print(counter)
+    f = open(os.getcwd() + '/year_2021/day11/input.txt')
+    for line in f:
+        board.append(list(map(int, line.rstrip())))
+
+    for s in range(1, steps + 1):
+        step()
+        flash()
+
+    click.echo(counter)
+
+
+if __name__ == "__main__":
+    run()
