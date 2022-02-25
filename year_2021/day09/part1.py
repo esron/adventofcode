@@ -43,7 +43,6 @@ def run():
                 and map[i + 1][-1] > map[i][-1] < map[i - 1][-1]:
             risk_level += 1 + int(map[i][-1])
 
-
     # Last line first cell
     if map[-1][1] > map[-1][0] < map[-2][0]:
         risk_level += 1 + int(map[-1][0])
