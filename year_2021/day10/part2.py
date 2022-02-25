@@ -1,42 +1,50 @@
+import os
+import click
 from collections import deque
-from sys import stdin
 
-scores = []
 
-closing = {
-  ')': '(',
-  ']': '[',
-  '}': '{',
-  '>': '<',
-}
+def run():
+    f = open(os.getcwd() + '/year_2021/day10/input.txt')
+    scores = []
 
-values = {
-  '(': 1,
-  '[': 2,
-  '{': 3,
-  '<': 4,
-}
+    closing = {
+        ')': '(',
+        ']': '[',
+        '}': '{',
+        '>': '<',
+    }
 
-for line in stdin:
-  line = line.rstrip()
-  q = deque()
-  score = 0
+    values = {
+        '(': 1,
+        '[': 2,
+        '{': 3,
+        '<': 4,
+    }
 
-  for c in line:
-    if c in ('(', '[', '{', '<'):
-      q.append(c)
-    elif q[-1] == closing[c]:
-      q.pop()
-    else:
-      q.clear()
-      break
+    for line in f:
+        line = line.rstrip()
+        q = deque()
+        score = 0
 
-  if len(q) > 0:
-    while len(q) > 0:
-      c = q.pop()
-      score *= 5
-      score += values[c]
+        for c in line:
+            if c in ('(', '[', '{', '<'):
+                q.append(c)
+            elif q[-1] == closing[c]:
+                q.pop()
+            else:
+                q.clear()
+                break
 
-    scores.append(score)
+        if len(q) > 0:
+            while len(q) > 0:
+                c = q.pop()
+                score *= 5
+                score += values[c]
 
-print(sorted(scores)[int(len(scores) / 2)])
+            scores.append(score)
+
+    click.echo(sorted(scores)[int(len(scores) / 2)])
+
+
+if __name__ == "__main__":
+    run()
