@@ -1,5 +1,8 @@
-from sys import stdin
+import os
+import click
 from typing import Iterable
+
+
 
 class Point:
     def __init__(self, x: int, y: int) -> None:
@@ -34,12 +37,14 @@ def execute(instruction: str, points: Iterable[Point]) -> None:
             if p.x > value:
                 p.move_x(value - p.distance_x(value))
 
+
 def remove_equals(points: Iterable[Point]) -> Iterable[Point]:
     filtered = []
     while(len(points) > 0):
         filtered.append(points[0])
         points = list(filter(lambda x: x != points[0], points))
     return filtered
+
 
 def draw(points, size_x, size_y):
     display = []
@@ -50,27 +55,34 @@ def draw(points, size_x, size_y):
 
     for p in points:
         display[p.y][p.x] = '#'
-    print(''.join([''.join(line) for line in display]))
+    click.echo(''.join([''.join(line) for line in display]))
 
-points = []
-instructions = []
 
-for line in stdin:
-    if len(line.split(',')) == 2:
-        points.append(Point(*tuple(map(int, line.rstrip().split(',')))))
-    elif line != '\n':
-        instructions.append(line.rstrip().split(' ')[2])
+def run():
+    f = open(os.getcwd() + '/year_2021/day13/input.txt')
+    points = []
+    instructions = []
 
-for i in instructions:
-    execute(i, points)
-    points = remove_equals(points)
+    for line in f:
+        if len(line.split(',')) == 2:
+            points.append(Point(*tuple(map(int, line.rstrip().split(',')))))
+        elif line != '\n':
+            instructions.append(line.rstrip().split(' ')[2])
 
-size_x = 0
-size_y = 0
-for p in points:
-    if p.x > size_x:
-        size_x = p.x
-    if p.y > size_y:
-        size_y = p.y
+    for i in instructions:
+        execute(i, points)
+        points = remove_equals(points)
 
-draw(points, size_x, size_y)
+    size_x = 0
+    size_y = 0
+    for p in points:
+        if p.x > size_x:
+            size_x = p.x
+        if p.y > size_y:
+            size_y = p.y
+
+    draw(points, size_x, size_y)
+
+
+if __name__ == "__main__":
+    run()
