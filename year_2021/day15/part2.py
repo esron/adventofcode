@@ -66,11 +66,7 @@ def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
     open_list = PriorityQueue()
     open_list.put(A)
     closed_list = set()
-    i = 1
     while not open_list.empty():
-        if i % 1000 == 0:
-            print('Iteration: ', i)
-        i += 1
         current: Point = open_list.get()
         closed_list.add(current)
         if current == goal:
