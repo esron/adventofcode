@@ -3,8 +3,8 @@ import click
 from collections import deque
 
 
-def count_fish(l, days):
-    q = deque(l)
+def count_fish(fishes, days):
+    q = deque(fishes)
 
     for _ in range(days):
         spawn = q.popleft()
