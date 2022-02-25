@@ -92,7 +92,7 @@ def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
 
 def run():
     grid = []
-    f = open(os.getcwd() + '/year_2021/day14/input.txt')
+    f = open(os.getcwd() + '/year_2021/day15/input.txt')
     for line in f:
         grid.append(list(map(int, line.rstrip())))
 
