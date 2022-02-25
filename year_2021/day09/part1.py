@@ -59,3 +59,7 @@ def run():
         risk_level += 1 + int(map[-1][-1])
 
     click.echo(risk_level)
+
+
+if __name__ == "__main__":
+    run()
