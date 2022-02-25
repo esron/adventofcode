@@ -3,7 +3,6 @@ import click
 from typing import Iterable
 
 
-
 class Point:
     def __init__(self, x: int, y: int) -> None:
         self.x = x
