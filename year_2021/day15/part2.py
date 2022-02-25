@@ -1,7 +1,9 @@
+import os
+import click
 from decimal import Decimal
-from sys import path, stdin
 from typing import Iterable
 from queue import PriorityQueue
+
 
 class Point:
     def __init__(self, coord: 'tuple[int, int]', value: int) -> None:
@@ -38,14 +40,18 @@ class Point:
         return f'{{ x: {str(self.x)}, y: {str(self.y)}, f: {self.f}, \
 g: {self.g} value: {self.value} }}'
 
+
 def is_in_range(x: int, y: int, grid: Iterable[Iterable[int]]) -> bool:
     return (0 <= x < len(grid)) and (0 <= y < len(grid[x]))
+
 
 def append_if_in_range(grid, n, direction):
     if is_in_range(*direction, grid):
         n.append(grid[direction[0]][direction[1]])
 
-def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point]:
+
+def get_neighbors(point: Point,
+                  grid: Iterable[Iterable[int]]) -> Iterable[Point]:
     n = []
 
     append_if_in_range(grid, n, (point.x - 1, point.y))
@@ -54,6 +60,7 @@ def get_neighbors(point: Point, grid: Iterable[Iterable[int]]) -> Iterable[Point
     append_if_in_range(grid, n, (point.x, point.y + 1))
 
     return n
+
 
 def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
     open_list = PriorityQueue()
@@ -83,36 +90,39 @@ def pathfinder(A: Point, goal: Point, grid: Iterable[Iterable[int]]) -> Point:
                 n.f = new_g + n.distance(goal)
                 open_list.put(n)
 
+
 def increment(x: int) -> int:
     return x % 9 + 1
 
-grid = []
-f = open('day15.txt')
-for line in f:
-    l = list(map(int, line.rstrip()))
-    ll = l.copy()
+
+def run():
+    grid = []
+    f = open(os.getcwd() + '/year_2021/day15/input.txt')
+    for line in f:
+        ls = list(map(int, line.rstrip()))
+        ll = ls.copy()
+        for _ in range(4):
+            ls = list(map(increment, ls))
+            ll += ls
+
+        grid.append(ll)
+
+    g = grid.copy()
     for _ in range(4):
-        l = list(map(increment, l))
-        ll += l
+        for i in range(len(g)):
+            g[i] = list(map(increment, g[i]))
 
-    grid.append(ll)
+        grid += g
 
-g = grid.copy()
-for _ in range(4):
-    for i in range(len(g)):
-        g[i] = list(map(increment, g[i]))
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            grid[i][j] = Point((i, j), grid[i][j])
 
-    grid += g
+    start = grid[0][0]
+    start.g = 0
+    start.f = 0
+    goal = grid[len(grid) - 1][len(grid[0]) - 1]
 
-for i in range(len(grid)):
-    for j in range(len(grid[i])):
-        grid[i][j] = Point((i, j), grid[i][j])
+    point = pathfinder(start, goal, grid)
 
-start = grid[0][0]
-start.g = 0
-start.f = 0
-goal  = grid[len(grid) - 1][len(grid[0]) - 1]
-
-point = pathfinder(start, goal, grid)
-
-print(point.f)
+    click.echo(point.f)
