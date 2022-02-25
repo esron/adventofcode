@@ -80,3 +80,7 @@ def run():
     pathfinder(Node.start_node, [])
 
     click.echo(len(paths))
+
+
+if __name__ == "__main__":
+    run()
