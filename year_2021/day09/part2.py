@@ -70,7 +70,8 @@ def run():
 
     # Last line last cell
     if map[-1][-2] > map[-1][-1] < map[-2][-1]:
-        basins.append(calculate_basin_size(map, len(map) - 1, len(map[-1]) - 1))
+        basins.append(calculate_basin_size(
+            map, len(map) - 1, len(map[-1]) - 1))
 
     basins = sorted(basins, reverse=True)
 
@@ -80,3 +81,7 @@ def run():
         output *= b
 
     click.echo(output)
+
+
+if __name__ == "__main__":
+    run()
