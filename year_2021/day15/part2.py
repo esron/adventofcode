@@ -126,3 +126,7 @@ def run():
     point = pathfinder(start, goal, grid)
 
     click.echo(point.f)
+
+
+if __name__ == "__main__":
+    run()
