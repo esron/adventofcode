@@ -1,15 +1,14 @@
-from sys import stdin
+import os
+import click
 
-input = []
-
-for line in stdin:
-    input.append(line.rstrip())
 
 def filter_ones(values, index):
     return list(filter(lambda e: e[index] == '1', values))
 
+
 def filter_zeros(values, index):
     return list(filter(lambda e: e[index] == '0', values))
+
 
 def oxygen_generator_rating(values, index):
     if len(values) == 1:
@@ -23,6 +22,7 @@ def oxygen_generator_rating(values, index):
     else:
         return oxygen_generator_rating(zeros, index+1)
 
+
 def CO2_scrubber_rating(values, index):
     if len(values) == 1:
         return values[0]
@@ -35,7 +35,18 @@ def CO2_scrubber_rating(values, index):
     else:
         return CO2_scrubber_rating(zeros, index+1)
 
-ogr = int(oxygen_generator_rating(input, 0), 2)
-csr = int(CO2_scrubber_rating(input, 0), 2)
 
-print(ogr * csr)
+def run():
+    f = open(os.getcwd() + '/year_2021/day03/input.txt')
+    input = []
+
+    for line in f:
+        input.append(line.rstrip())
+    ogr = int(oxygen_generator_rating(input, 0), 2)
+    csr = int(CO2_scrubber_rating(input, 0), 2)
+
+    click.echo(ogr * csr)
+
+
+if __name__ == "__main__":
+    run()
