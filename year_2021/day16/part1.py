@@ -31,23 +31,28 @@ def take_literal_value(bin_queue: deque) -> list:
     return response
 
 
-bin_string = hex_to_bin(input)
+def run():
+    bin_string = hex_to_bin(input)
 
-print(bin_string)
+    print(bin_string)
 
-bin_queue = deque(list(bin_string))
+    bin_queue = deque(list(bin_string))
 
-total_version_id = 0
-while bin_queue:
-    version_id = ''.join(take_from_queue(bin_queue, 3))
-    total_version_id += int(version_id, 2)
-    print('{:<20} {:<10}'.format('version_id', int(version_id, 2)))
-    print('{:<20} {:<10}'.format('total_version_id', total_version_id))
-    type_id = ''.join(take_from_queue(bin_queue, 3))
-    print('{:<20} {:<10}'.format('type_id', int(type_id, 2)))
-    if int(type_id, 2) == 4:
-        literal = take_literal_value(bin_queue)
-        print(literal)
-        print(int(''.join(literal), 2))
-    while bin_queue and bin_queue[-1] == '0':
-        bin_queue.popleft()
+    total_version_id = 0
+    while bin_queue:
+        version_id = ''.join(take_from_queue(bin_queue, 3))
+        total_version_id += int(version_id, 2)
+        print('{:<20} {:<10}'.format('version_id', int(version_id, 2)))
+        print('{:<20} {:<10}'.format('total_version_id', total_version_id))
+        type_id = ''.join(take_from_queue(bin_queue, 3))
+        print('{:<20} {:<10}'.format('type_id', int(type_id, 2)))
+        if int(type_id, 2) == 4:
+            literal = take_literal_value(bin_queue)
+            print(literal)
+            print(int(''.join(literal), 2))
+        while bin_queue and bin_queue[-1] == '0':
+            bin_queue.popleft()
+
+
+if __name__ == "__main__":
+    run()
