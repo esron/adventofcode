@@ -1,10 +1,9 @@
 import os
 import click
 
-file = open(os.getcwd() + '/year_2021/day01/input.txt')
-
 
 def run():
+    file = open(os.getcwd() + '/year_2021/day01/input.txt')
     increased = 0
     previous = int(file.readline())
     actual = int(file.readline())
