@@ -61,3 +61,7 @@ def run():
         gt_2 += len(list(filter(lambda x: x >= 2, line)))
 
     click.echo(gt_2)
+
+
+if __name__ == "__main__":
+    run()
