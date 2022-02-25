@@ -1,8 +1,11 @@
-from sys import stdin
+import os
+import click
 from typing import Mapping
+
 
 def insert(pair: tuple[str, str], map: Mapping[str, str]) -> str:
     return pair[0] + map[pair[0] + pair[1]] + pair[1]
+
 
 def step(polymer: str, map: Mapping[str, str]) -> str:
     inserts = []
@@ -15,24 +18,34 @@ def step(polymer: str, map: Mapping[str, str]) -> str:
 
     return new_polymer
 
-polymer_template = input().rstrip()
 
-# Skip empty line
-input()
-insertions_map: Mapping[str, str] = {}
-elements_counts: Mapping[str, int] = {}
-for line in stdin:
-    pair, element = line.rstrip().split(' -> ')
-    insertions_map[pair] = element
-    if not element in elements_counts.keys():
-        elements_counts[element] = 0
+def run():
+    f = open(os.getcwd() + '/year_2021/day13/input.txt')
+    polymer_template = f.readline().rstrip()
 
-for _ in range(10):
-    polymer_template = step(polymer_template, insertions_map)
+    # Skip empty line
+    f.readline()
 
-for e in polymer_template:
-    elements_counts[e] += 1
+    insertions_map: Mapping[str, str] = {}
+    elements_counts: Mapping[str, int] = {}
+    for line in f:
+        pair, element = line.rstrip().split(' -> ')
+        insertions_map[pair] = element
+        if element not in elements_counts.keys():
+            elements_counts[element] = 0
 
-elements_counts = {k: v for k, v in sorted(elements_counts.items(), key=lambda item: item[1])}
+    for _ in range(10):
+        polymer_template = step(polymer_template, insertions_map)
 
-print(elements_counts[list(elements_counts.keys())[-1]] - elements_counts[list(elements_counts.keys())[0]])
+    for e in polymer_template:
+        elements_counts[e] += 1
+
+    elements_counts = {k: v for k, v in sorted(
+        elements_counts.items(), key=lambda item: item[1])}
+
+    click.echo(elements_counts[list(elements_counts.keys())[-1]] -
+               elements_counts[list(elements_counts.keys())[0]])
+
+
+if __name__ == "__main__":
+    run()
