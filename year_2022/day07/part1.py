@@ -1,5 +1,5 @@
 import os
-from typing import IO, Iterable, Optional, Union
+from typing import IO, Optional, Union
 import click
 
 SIZE_TRESHOLD = 100000
