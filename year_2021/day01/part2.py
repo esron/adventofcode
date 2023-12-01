@@ -7,21 +7,24 @@ def run():
     increased = 0
     values = []
 
+    line: str
     for line in f:
         values.append(int(line))
 
-    firstWindown = values[0] + values[1] + values[2]
-    secondWindown = values[1] + values[2] + values[3]
-    for i in range(2, len(values) - 2):
-        thirdWindow = values[i] + values[i+1] + values[i+2]
+    first_window: int = values[0] + values[1] + values[2]
+    second_window: int = values[1] + values[2] + values[3]
 
-        if secondWindown > firstWindown:
+    i: int
+    for i in range(2, len(values) - 2):
+        third_window = values[i] + values[i + 1] + values[i + 2]
+
+        if second_window > first_window:
             increased += 1
 
-        firstWindown = secondWindown
-        secondWindown = thirdWindow
+        first_window = second_window
+        second_window = third_window
 
-    if secondWindown > firstWindown:
+    if second_window > first_window:
         increased += 1
 
     click.echo(increased)
